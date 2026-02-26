@@ -85,7 +85,11 @@ public class EventServiceImpl implements EventService {
     // Custom methods
     @Override
     public List<Event> getEventsByTag(String tag) {
-        return List.of();
+        if (tag == null || tag.isBlank()) return List.of();
+
+        return eventRepository.findAll().stream()
+                .filter(event -> event.getTags() != null && event.getTags().contains(tag))
+                .collect(Collectors.toList());
     }
 
     @Override
